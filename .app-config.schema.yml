@@ -1,0 +1,139 @@
+type: object
+additionalProperties: false
+
+required:
+  - name
+  - logo
+  - url
+  - server
+  - database
+  - redis
+  - networks
+  - wallets
+  - tokens
+  - pools
+
+properties:
+  # System Setup part with app name, logo, url, database, redis and the networks to connect to.
+  name:
+    type: string
+
+  logo:
+    type: string
+
+  url:
+    type: string
+
+  server: { $ref: '#/definitions/Server' }
+  database: { $ref: '#/definitions/Database' }
+  redis: { $ref: '#/definitions/Redis' }
+
+  networks:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/Network'
+
+  # Blockchain ressources needed dApp
+  wallets:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/Wallet'
+
+  tokens:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/Token'
+
+  pools:
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/Pool'
+
+definitions:
+  Server:
+    type: object
+    additionalProperties: false
+    required: [port]
+    properties:
+      port: { $ref: '#/definitions/IpPort' }
+
+  Database:
+    type: object
+    additionalProperties: false
+    required: [host, port]
+    properties:
+      host: { type: string }
+      port: { $ref: '#/definitions/IpPort' }
+      database: { type: string }
+
+  Redis:
+    type: object
+    additionalProperties: false
+    required: [host, port]
+    properties:
+      host: { type: string }
+      port: { $ref: '#/definitions/IpPort' }
+
+  Network:
+    type: object
+    properties:
+      chain-id: { type: integer, minimum: 0 }
+      rpc-url: { type: string }
+      symbol: { type: string }
+      explorer: { type: string }
+      platform: { type: string, enum: ['ethereum'] }
+
+  Wallet:
+    type: object
+    additionalProperties: false
+    required: [name]
+    properties:
+      name: { type: string }
+      platform: { type: string, enum: ['ethereum'] }
+
+  Pool:
+    type: object
+    additionalProperties: false
+    required: [network, exchange, contract]
+    properties:
+      network: { type: string }
+      exchange: { type: string }
+      contract: { type: string }
+
+  # Logic Layer configuration
+  Staking:
+    type: object
+    additionalProperties: false
+    required: [contracts]
+    properties:
+      contracts:
+        type: object
+        additionalProperties:
+          type: string
+
+  Treasury:
+    type: object
+    additionalProperties: false
+    required: [token, wallets, vesting, pools]
+    properties:
+      token: { type: string }
+      wallets:
+        type: array
+        items:
+          type: string
+
+      vesting:
+        type: array
+        items:
+          type: string
+
+      pools:
+        type: array
+        items:
+          type: string
+
+  # Datatypes
+  IpPort:
+    type: integer
+    minimum: 0
+    maximum: 65535

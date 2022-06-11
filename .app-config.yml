@@ -1,0 +1,32 @@
+name: Ibex
+logo: ibex.png
+url: www.ibex.com
+
+server:
+  port:
+    $env:
+      default: 3000
+      production: 80
+
+database:
+  host: localhost
+  port: 5432
+  database: ibex
+
+redis:
+  host: localhost
+  port: 6379
+
+networks:
+  polygon:
+    chain-id: 137
+    rpc-url: https://polygon-rpc.com
+    symbol: MATIC
+    explorer: https://polygonscan.com
+    platform: ethereum
+  mumbai:
+    chain-id: 80001
+    rpc-url: https://matic-mumbai.chainstacklabs.com
+    symbol: MATIC
+    explorer: https://mumbai.polygonscan.com
+    platform: ethereum
